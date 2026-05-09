@@ -8,6 +8,8 @@
 #include <bsp.h>
 #include <yss/instance.h>
 
+FM24CL04B fram;
+
 void initializeBoard(void)
 {
 	// Initializing I2C0
@@ -120,5 +122,18 @@ void initializeBoard(void)
 	canfd0.enableClock();
 	canfd0.initialize(canfd0Config);
 	canfd0.enableInterrupt();
+
+	// Initializing FRAM
+	FM24CL04B::config_t framConfig = 
+	{
+		i2c0,			//I2c &peri;
+		{&gpioB, 3},	//pin_t writeProtectPin;
+		0				//uint8_t addr;
+	};
+
+	gpioB.setAsOutput(3);
+
+	fram.initialize(framConfig);
+
 }
 

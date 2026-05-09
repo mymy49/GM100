@@ -10,7 +10,11 @@
 
 #include <stdint.h>
 
+#include <FM24CL04B/FM24CL04B.h>
+
 void initializeBoard(void);
+
+extern FM24CL04B fram;
 
 #endif
 
