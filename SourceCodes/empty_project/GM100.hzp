@@ -52,7 +52,7 @@
       gcc_entry_point="Reset_Handler"
       linker_memory_map_file="$(DeviceMemoryMapFile)"
       linker_section_placement_file="$(StudioDir)/targets/Cortex_M/flash_placement.xml"
-      macros="DeviceIncludePath=$(TargetsDir)/M467/CMSIS/Device/M46x/Include;DeviceHeaderFile=$(TargetsDir)/M467/CMSIS/Device/M63x/Include/M46x.h;DeviceMemoryMapFile=$(TargetsDir)/M467/XML/M467KJHAN_MemoryMap.xml;DeviceRegisterDefinitionFile=$(TargetsDir)/M467/XML/M46x/M467_v1_Registers.xml;DeviceSystemFile=$(TargetsDir)/M467/CMSIS/Device/M46x/Source/system_M46x.c;DeviceVectorsFile=$(TargetsDir)/M467/Source/M467_v1_Vectors.s;DeviceFamily=M467;DeviceSubFamily=M467;DeviceLoaderFile=$(TargetsDir)/M467/Loader/M46x_AP_1024_Loader.elf"
+      macros="DeviceIncludePath=$(TargetsDir)/M467/CMSIS/Device/M46x/Include;DeviceHeaderFile=$(TargetsDir)/M467/CMSIS/Device/M63x/Include/M46x.h;DeviceMemoryMapFile=$(TargetsDir)/M467/XML/M467KJHAN_MemoryMap.xml;DeviceRegisterDefinitionFile=$(TargetsDir)/M467/XML/M460_Registers.xml;DeviceSystemFile=$(TargetsDir)/M467/CMSIS/Device/M46x/Source/system_M46x.c;DeviceVectorsFile=$(TargetsDir)/M467/Source/M467_v1_Vectors.s;DeviceFamily=M467;DeviceSubFamily=M467;DeviceLoaderFile=$(TargetsDir)/M467/Loader/M46x_AP_1024_Loader.elf"
       project_directory=""
       project_type="Executable"
       property_groups_file_path="$(TargetsDir)/M467/XML/property_groups.xml"
