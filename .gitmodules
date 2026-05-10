@@ -4,6 +4,3 @@
 [submodule "module/FM24CL04B"]
 	path = module/FM24CL04B
 	url = https://github.com/mymy49/FM24CL04B
-[submodule "TurtleShip"]
-	path = TurtleShip
-	url = https://github.com/mymy49/TurtleShip
