@@ -159,7 +159,6 @@ void initializeBoard(void)
 	gpioC.setOutput(13, false);	// IM2
 	gpioD.setOutput(12, false);	// SPI4W
 
-
 	// LCD initialization
 	P4309N_DCT::config_t lcdConfig = 
 	{
