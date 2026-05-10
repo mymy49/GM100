@@ -12,10 +12,10 @@
 
 int main(void)
 {
-	// 운영체체 초기화
+	// Operating system initialization
 	initializeYss();
 
-	// 보드 초기화
+	// Board initialization
 	initializeBoard();
 
 	while(1)

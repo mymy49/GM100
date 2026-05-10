@@ -11,10 +11,15 @@
 #include <stdint.h>
 
 #include <FM24CL04B/FM24CL04B.h>
+#include <P4309N_DCT/P4309N_DCT.h>
 
 void initializeBoard(void);
 
 extern FM24CL04B fram;
+
+extern P4309N_DCT lcd;
+
+extern FrameBufferRgb565LE fb;
 
 #endif
 

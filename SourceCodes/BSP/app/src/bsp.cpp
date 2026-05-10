@@ -10,9 +10,13 @@
 
 FM24CL04B fram;
 
+P4309N_DCT lcd;
+
+FrameBufferRgb565LE fb;
+
 void initializeBoard(void)
 {
-	// Initializing I2C0
+	// I2C0 initialization
 	I2c::mainConfig_t i2c0Config =
 	{
 		I2c::SPEED_STANDARD //speed_t speed;
@@ -25,7 +29,7 @@ void initializeBoard(void)
 	i2c0.initialize(i2c0Config);
 	i2c0.enableInterrupt();
 
-	// Initializing I2C1
+	// I2C1 initialization
 	I2c::mainConfig_t i2c1Config =
 	{
 		I2c::SPEED_STANDARD //speed_t speed;
@@ -38,7 +42,7 @@ void initializeBoard(void)
 	i2c1.initialize(i2c1Config);
 	i2c1.enableInterrupt();
 
-	// Initializing UART0
+	// UART0 initialization
 	Uart::config_t uart0Config = 
 	{
 		Uart::MODE_NORMAL,	//mode_t mode;
@@ -56,7 +60,7 @@ void initializeBoard(void)
 	uart0.initialize(uart0Config);
 	uart0.enableInterrupt();
 
-	// Initializing BPWM0 (TFT-LCD Back Light)
+	// BPWM0 (TFT-LCD Back Light) initialization
 	//gpioA.setAsAltFunc(11, Gpio::PA11_BPWM0_CH0);	// Set PA11 to BPWM0 CH0
 
 	//bpwm0.enableClock();			// Enable BPWM0 clock
@@ -70,7 +74,7 @@ void initializeBoard(void)
 	gpioA.setAsOutput(11);
 	gpioA.setOutput(11, true);
 
-	// Initializing SDH0
+	// SDH0 initialization
 	gpioE.setAsAltFunc(2, Gpio::PE2_SD0_DAT0);
 	gpioE.setAsAltFunc(3, Gpio::PE3_SD0_DAT1);
 	gpioE.setAsAltFunc(4, Gpio::PE4_SD0_DAT2);
@@ -84,7 +88,7 @@ void initializeBoard(void)
 	sdh0.enableInterrupt();
 	sdh0.setDetectPin({&gpioD, 13});
 
-	// Initializing QSPI0
+	// QSPI0 initialization
 	gpioE.setAsAltFunc(0, Gpio::PE0_QSPI0_MOSI0, Gpio::AF_PUSH_PULL, Gpio::SLEWRATE_HIGH);
 	gpioE.setAsAltFunc(1, Gpio::PE1_QSPI0_MISO0, Gpio::AF_PUSH_PULL, Gpio::SLEWRATE_HIGH);
 	gpioB.setAsAltFunc(0, Gpio::PB0_QSPI0_MOSI1, Gpio::AF_PUSH_PULL, Gpio::SLEWRATE_HIGH); 
@@ -100,7 +104,7 @@ void initializeBoard(void)
 	qspi0.initialize(qspi0Config);
 	qspi0.enableInterrupt();
 
-	// Initializing CANFD0
+	// CANFD0 initialization
 	gpioD.setAsAltFunc(10, Gpio::PD10_CAN0_RXD);
 	gpioD.setAsAltFunc(11, Gpio::PD11_CAN0_TXD);
 
@@ -123,7 +127,7 @@ void initializeBoard(void)
 	canfd0.initialize(canfd0Config);
 	canfd0.enableInterrupt();
 
-	// Initializing FRAM
+	// FRAM initialization
 	FM24CL04B::config_t framConfig = 
 	{
 		i2c0,			//I2c &peri;
@@ -135,5 +139,51 @@ void initializeBoard(void)
 
 	fram.initialize(framConfig);
 
+	// Reset LCD
+	gpioA.setAsOutput(10);
+	gpioA.setOutput(10, false);
+	thread::delay(10);
+	gpioA.setOutput(10, true);
+	thread::delay(100);
+
+	// GPIO of LCD initialization
+	gpioH.setAsOutput(9);	// CS
+	gpioA.setAsOutput(9);	// IM0
+	gpioA.setAsOutput(8);	// IM1
+	gpioC.setAsOutput(13);	// IM2
+	gpioD.setAsOutput(12);	// SPI4W
+
+	gpioH.setOutput(9, true);	// CS
+	gpioA.setOutput(9, true);	// IM0
+	gpioA.setOutput(8, true);	// IM1
+	gpioC.setOutput(13, false);	// IM2
+	gpioD.setOutput(12, false);	// SPI4W
+
+
+	// LCD initialization
+	P4309N_DCT::config_t lcdConfig = 
+	{
+		qspi0,		//Spi &peri;
+		{0, 0},		//pin_t reset;
+		{&gpioH, 9}	//pin_t cs;
+	};
+
+	fb.malloc(480 * 272);
+	fb.setSize(480, 272);
+	lcd.setFrameBuffer(fb);
+	lcd.initialize(lcdConfig);
+
+	lcd.setBackgroundColor({0xFF, 0x00, 0x00});
+	lcd.clear();
+	thread::delay(1000);
+
+	lcd.setBackgroundColor({0x00, 0xFF, 0x00});
+	lcd.clear();
+	thread::delay(1000);
+
+	lcd.setBackgroundColor({0x00, 0x00, 0xFF});
+	lcd.clear();
+	thread::delay(1000);
+	//system::setSystemTftLcd(lcd);
 }
 
