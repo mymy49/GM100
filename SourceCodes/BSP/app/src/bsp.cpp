@@ -197,3 +197,43 @@ void initializeBoard(void)
 	lcd.clear();
 }
 
+void initializeSdram(void)
+{
+	Gpio::altFuncPackage_t hbiPort[13]
+	{
+		{PC, 0, Gpio::PC0_HBI_D2},
+		{PC, 1, Gpio::PC1_HBI_RWDS},
+		{PC, 2, Gpio::PC2_HBI_nRESET},
+		{PC, 3, Gpio::PC3_HBI_nCS},
+		{PC, 4, Gpio::PC4_HBI_CK},
+		{PC, 5, Gpio::PC5_HBI_nCK},
+		{PG, 9, Gpio::PG9_HBI_D4},
+		{PG, 10, Gpio::PG10_HBI_D3},
+		{PG, 11, Gpio::PG11_HBI_D0},
+		{PG, 12, Gpio::PG12_HBI_D1},
+		{PG, 13, Gpio::PG13_HBI_D5},
+		{PG, 14, Gpio::PG14_HBI_D6},
+		{PG, 15, Gpio::PG15_HBI_D7}
+	};
+
+	gpioA.setPackageAsAltFunc(hbiPort, 13, Gpio::AF_PUSH_PULL, Gpio::SLEWRATE_FAST);
+	
+	// 
+	Hbi::config_t config =
+	{
+		4,								//float tCSS_min_ns;
+		40,								//float tACC_min_ns;
+		0,								//float tCSH_min_ns;
+		10,								//float tCSHI_min_ns;
+		4,								//float tCSM_max_us;
+		Hbi::BURST_GROUP_SIZE_32BYTES,	//bustGroupSize_t bgs;5
+		8 * 1024 * 1024,				//uint32_t capcacity;
+		200 * 1000 * 1000				//uint32_t maxFrequency;
+	};
+
+	clock.enableAhb0Clock(CLK_AHBCLK0_HBICKEN_Pos);
+	hbi.initialize(config, clock.getHclkClockFrequency());
+	nvic.enableInterrupt(HBI_IRQn);
+}
+
+

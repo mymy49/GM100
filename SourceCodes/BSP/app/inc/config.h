@@ -5,84 +5,97 @@
  * See the file "LICENSE" in the main directory of this archive for more details.
  */
 
-// Nuvoton M25x 시리즈에서 유효한 설정이 담긴 참고용 파일입니다.
-
 #ifndef YSS_CONFIG__H_
 #define YSS_CONFIG__H_
 
-// ####################### 외부 크리스탈 클럭 주파수 설정 #######################
-// 아래 HSE_CLOCK_FREQ가 정의 되어 있으면 HSE 클럭을 소스로 PLL 설정이 이뤄집니다.
-// 정의되어 있지 않으면 HSI 클럭을 소스로 PLL 설정이 이뤄집니다.
-//#define HSE_CLOCK_FREQ 32000000
+// ####################### External crystal clock frequency setting #######################
+// If HSE_CLOCK_FREQ is defined below, PLL configuration is performed using the HSE clock as the source.
+// If not defined, the PLL is configured using the HSI clock as the source.
+#define HSE_CLOCK_FREQ			12000000
 
-// ####################### 스케줄러 설정 #######################
-// runtime 함수를 지원할 PWM 장치 설정 (RUNTIME_TIMER0, 1, 2, 3, 4)
-#define YSS_TIMER			RUNTIME_TIMER0
+// ####################### Scheduler settings #######################
+// Select a timer device to support runtime functions (RUNTIME_TIMER0, 1, 2, 3, 4)
+#define YSS_TIMER				RUNTIME_TIMER0
 
-// 쓰레드당 할당 받는 Systick Clock의 수
-#define THREAD_GIVEN_CLOCK	20000
+// Number of Systick Clocks allocated per thread
+#define THREAD_GIVEN_CLOCK		12000
 
-// 최대 등록 가능한 쓰레드의 수
-#define MAX_THREAD			12
+// Maximum number of threads that can be registered
+#define MAX_THREAD				32
 
-// 쓰레드의 스택을 0xAA 패턴으로 채우기 (true, false)
-#define FILL_THREAD_STACK	false
+// Fill the thread's stack with the 0xAA pattern (true, false)
+#define FILL_THREAD_STACK		false
 
-// ###################### 주변 장치 활성화 ######################
-// 활성화 시킬 장치에 대해 false -> true로 변경하여 활성화 합니다.
-//
-// 주의 
+// ####################### lmalloc settings #######################
+// Whether to use dynamically allocated memory using SDRAM (true, false)
+#define YSS_L_HEAP_USE			true
 
-// BPWM 활성화
+// Setting the starting address of SDRAM
+#define YSS_SDRAM_ADDR			0x80000000
+
+// Setting the total memory capacity of SDRAM
+#define YSS_L_HEAP_SIZE			(8 * 1024 * 1024)
+
+// lmalloc minimum allocation unit capacity
+#define YSS_L_HEAP_CLUSTER_SIZE	(256)
+
+// Maximum allocation count of lmalloc
+#define YSS_L_MAX_NUM_OF_MALLOC	1024
+
+
+// ###################### Activate peripheral devices ######################
+// Activate the device by changing false to true.
+
+// Enable BPWM
 #define BPWM0_ENABLE		true
 #define BPWM1_ENABLE		false
 
-// CAN FD 활성화
+// Enable CAN FD
 #define CANFD0_ENABLE		true
 #define CANFD1_ENABLE		true
 #define CANFD2_ENABLE		true
 #define CANFD3_ENABLE		true
 
-// EPWM 활성화
+// Enable EPWM
 #define EPWM0_ENABLE		false
 #define EPWM1_ENABLE		false
 
-// HBI 활성화
+// Enable HBI
 #define HBI_ENABLE			true
 
-// I2C 활성화
+// Enable I2C
 #define I2C0_ENABLE			true
 #define I2C1_ENABLE			true
 
-// I2S 활성화
+// Enable I2S
 #define I2S0_ENABLE			false
 #define I2S1_ENABLE			false
 
-// PWM 활성화
+// Enable PWM
 #define PWM0_ENABLE			false
 #define PWM1_ENABLE			false
 #define PWM2_ENABLE			false
 #define PWM3_ENABLE			false
 
-// QSPI 활성화
+// Enable QSPI
 #define QSPI0_ENABLE		true
 #define QSPI1_ENABLE		true
 
-// SDH 활성화
+// Enable SDH
 #define SDH0_ENABLE			true
 #define SDH1_ENABLE			true
 
-// SPI 활성화
+// Enable SPI
 #define SPI0_ENABLE			false
 #define SPI1_ENABLE			true
 
-// TIMER 활성화
+// Enable TIMER
 #define TIMER0_ENABLE		false
 #define TIMER1_ENABLE		true
 #define TIMER2_ENABLE		false
 #define TIMER3_ENABLE		false
 
-// UART 활성화
+// Enable UART
 #define UART0_ENABLE		true
 #define UART1_ENABLE		false
 #define UART2_ENABLE		false
@@ -94,7 +107,7 @@
 #define UART8_ENABLE		false
 #define UART9_ENABLE		false
 
-// USBD 활성화
+// Enable USBD
 #define USBD_ENABLE			false
 
 #endif
