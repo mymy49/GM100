@@ -46,7 +46,7 @@
       arm_target_interface_type="SWD"
       arm_target_loader_applicable_loaders="Flash"
       arm_target_loader_default_loader="Flash"
-      c_user_include_directories="$(TargetsDir)/M467/CMSIS/StdDriver/M46x/inc;$(TargetsDir)/M467/CMSIS/Device/M46x/Include;$(ProjectDir)/app/inc;$(ProjectDir)/../../yss/inc;$(ProjectDir)/../../module"
+      c_user_include_directories="$(TargetsDir)/M467/CMSIS/StdDriver/M46x/inc;$(TargetsDir)/M467/CMSIS/Device/M46x/Include;$(ProjectDir)/app/inc;$(ProjectDir)/../../../yss/inc;$(ProjectDir)/../../../module"
       debug_register_definition_file="$(DeviceRegisterDefinitionFile)"
       gcc_cplusplus_language_standard="gnu++11"
       gcc_entry_point="Reset_Handler"
@@ -74,7 +74,7 @@
       Name="Module"
       exclude=""
       filter=""
-      path="../../module"
+      path="../../../module"
       recurse="Yes" />
     <folder Name="Script Files">
       <file file_name="$(TargetsDir)/M467/Scripts/M467_Target.js">
@@ -92,7 +92,7 @@
       Name="yss OS Source Files"
       exclude=""
       filter="*.c;*.cpp;*.h;*.s;*.md;LICENSE"
-      path="$(ProjectDir)/../../yss"
+      path="$(ProjectDir)/../../../yss"
       recurse="Yes">
       <configuration Name="Common" filter="*.c;*.cpp;*.h;*.s;*.md;LICENSE" />
     </folder>
