@@ -12,6 +12,8 @@ FM24CL04B fram;
 
 P4309N_DCT lcd;
 
+GT911 touch;
+
 FrameBufferRgb565LE fb;
 
 void initializeBoard(void)
@@ -139,14 +141,29 @@ void initializeBoard(void)
 
 	fram.initialize(framConfig);
 
-	// Reset LCD
+	// Touch Screen initialization
+	// Handle the reset pin in the touchscreen initialization function
+	// The reset pins of the TFT-LCD and the touchscreen are bundled together.
 	gpioA.setAsOutput(10);
-	gpioA.setOutput(10, false);
-	thread::delay(10);
-	gpioA.setOutput(10, true);
-	thread::delay(100);
+	gpioA.setOutput(10, false);	
 
-	// GPIO of LCD initialization
+	GT911::config_t touchConfig = 
+	{
+		i2c1,			//I2c &peri;
+		{&gpioB, 6},	//pin_t isrPin;
+		{&gpioA, 10},	//pin_t resetPin;
+	};
+
+	touch.initialize(touchConfig);
+
+	// LCD initialization
+	P4309N_DCT::config_t lcdConfig = 
+	{
+		qspi0,		//Spi &peri;
+		{0, 0},		//pin_t reset;
+		{&gpioH, 9}	//pin_t cs;
+	};
+
 	gpioH.setAsOutput(9);	// CS
 	gpioA.setAsOutput(9);	// IM0
 	gpioA.setAsOutput(8);	// IM1
@@ -159,30 +176,24 @@ void initializeBoard(void)
 	gpioC.setOutput(13, false);	// IM2
 	gpioD.setOutput(12, false);	// SPI4W
 
-	// LCD initialization
-	P4309N_DCT::config_t lcdConfig = 
-	{
-		qspi0,		//Spi &peri;
-		{0, 0},		//pin_t reset;
-		{&gpioH, 9}	//pin_t cs;
-	};
-
 	fb.malloc(480 * 272);
 	fb.setSize(480, 272);
 	lcd.setFrameBuffer(fb);
 	lcd.initialize(lcdConfig);
-
+	
 	lcd.setBackgroundColor({0xFF, 0x00, 0x00});
 	lcd.clear();
-	thread::delay(1000);
+	thread::delay(250);
 
 	lcd.setBackgroundColor({0x00, 0xFF, 0x00});
 	lcd.clear();
-	thread::delay(1000);
+	thread::delay(250);
 
 	lcd.setBackgroundColor({0x00, 0x00, 0xFF});
 	lcd.clear();
-	thread::delay(1000);
-	//system::setSystemTftLcd(lcd);
+	thread::delay(250);
+
+	lcd.setBackgroundColor({0xFF, 0xFF, 0xFF});
+	lcd.clear();
 }
 

@@ -9,6 +9,8 @@
 #include <bsp.h>
 #include <yss/debug.h>
 #include <util/runtime.h>
+#include <yss/Trigger.h>
+
 
 int main(void)
 {

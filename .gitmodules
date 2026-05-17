@@ -7,3 +7,6 @@
 [submodule "module/P4309N_DCT"]
 	path = module/P4309N_DCT
 	url = https://github.com/mymy49/P4309N_DCT
+[submodule "module/GT911"]
+	path = module/GT911
+	url = https://github.com/mymy49/GT911
