@@ -6,3 +6,4 @@
 *THUMB Debug
 *THUMB Release
 *-backups
+*.kicad_sch.lck
